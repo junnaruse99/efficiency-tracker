@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AlertContext from '../../context/alerts/alertContext';
+import AuthContext from '../../context/authentication/authContext';
 
 
-const NewAccount = () => {
+const NewAccount = (props) => {
+
+    // Extract the values from context
+    const alertContext = useContext(AlertContext);
+    const { alert, showAlert } = alertContext;
+
+    // Extract values for authentication
+    const authContext = useContext(AuthContext);
+    const { authenticate, messagge, registerUser } = authContext;
+
+    // In case that a user has registered or there is a duplicate register
+    useEffect(() => {
+        if(authenticate) {
+            props.history.push('/projects');
+        }
+        if(messagge) {
+            console.log(messagge);
+            showAlert(messagge.msg, messagge.category);
+        }
+    }, [authenticate, messagge, props.history]);
 
     // State for login
     const [ user, saveUser ] = useState({
@@ -28,18 +49,34 @@ const NewAccount = () => {
         e.preventDefault();
 
         // Validation of empty fields
+        if(name.trim() === '' || email.trim() === '' || password.trim() === '' || confirm.trim() === '') {
+            showAlert('All fields are mandatory', 'alerta-error');
+            return;
+        }
 
         // Validation of password with a minimum of 6 chars
+        if(password.length < 6) {
+            showAlert('Password must be at least 6 characters', 'alerta-error');
+            return;
+        }
 
         // Check if both passwords are the same
+        if(password !== confirm) {
+            showAlert('Passwords are not the same', 'alerta-error');
+        }
 
         // Pass the value
-
+        registerUser({
+            name,
+            email, 
+            password
+        })
     }
     
 
     return ( 
         <div className="form-usuario">
+            { alert ? ( <div className={`alerta ${alert.category}`}>{alert.msg}</div>): null}
             <div className="contenedor-form sombra-dark">
                 <h1>Create an account</h1>
 
