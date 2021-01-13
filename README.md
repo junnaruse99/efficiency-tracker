@@ -13,3 +13,5 @@
 7) Can delete projects with the delete project button.
 
 This app was created using react, and hooks suchs as useState, useEffect and useContext and libraries suchs as react-transition-group and uuid.
+
+demo: https://junnaruse99.github.io/efficiency-tracker/.
