@@ -20,9 +20,9 @@ const Login = (props) => {
             props.history.push('/projects');
         }
         if(messagge) {
-            console.log(messagge);
             showAlert(messagge.msg, messagge.category);
         }
+        // eslint-disable-next-line
     }, [authenticate, messagge, props.history]);
 
     // State for login

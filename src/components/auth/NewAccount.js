@@ -23,6 +23,7 @@ const NewAccount = (props) => {
             console.log(messagge);
             showAlert(messagge.msg, messagge.category);
         }
+        // eslint-disable-next-line
     }, [authenticate, messagge, props.history]);
 
     // State for login

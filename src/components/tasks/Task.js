@@ -5,7 +5,7 @@ const Task = ( { task } ) => {
 
     // Get state of tasks of project
     const tasksContext = useContext(taskContext);
-    const { deleteTask, changeTaskState, saveActualTask } = tasksContext;
+    const { deleteTask, updateTask, saveActualTask } = tasksContext;
 
 
     // Function that modifies the state of a task
@@ -15,7 +15,7 @@ const Task = ( { task } ) => {
         } else {
             task.state = true;
         }
-        changeTaskState(task);
+        updateTask(task);
     }
 
 
@@ -54,7 +54,7 @@ const Task = ( { task } ) => {
                 <button
                     type="button"
                     className="btn btn-secundario"
-                    onClick={() => deleteTask(task.id)}
+                    onClick={() => deleteTask(task._id, task.projectId)}
                 >Delete</button>
             </div>
         </li>

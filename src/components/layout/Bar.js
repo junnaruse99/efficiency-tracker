@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../../context/authentication/authContext';
 
 const Bar = () => {
+    
+    // Extract data from token
+    const authContext = useContext(AuthContext);
+
+    const { user, logOut } = authContext;
+
     return ( 
         <header className="app-header">
-            <p className="nombre-usuario">Hello <span>Jun Naruse</span></p>
+            {user ? <p className="nombre-usuario">Hello <span>{user.name}</span></p> : null}
 
             <nav className="nav-principal">
-                <a href="#!">Log out</a>
+                <button
+                    className="btn btn-blank cerrar-sesion"
+                    onClick={logOut}
+                >Log out</button>
 
             </nav>
         </header>

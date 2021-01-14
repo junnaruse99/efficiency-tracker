@@ -5,12 +5,11 @@ export default ( state, action ) => {
         case TASK_PROJECT:
             return {
                 ...state,
-                projecttasks : state.tasks.filter(task => task.projectId === action.payload)
+                projecttasks : action.payload
             }
         case ADD_TASK:
             return {
                 ...state,
-                tasks: [action.payload, ...state.tasks],
                 projecttasks : [action.payload, ...state.projecttasks]
             }
         case VALIDATE_TASK:
@@ -21,15 +20,12 @@ export default ( state, action ) => {
         case DELETE_TASK:
             return {
                 ...state,
-                tasks : state.tasks.filter(task => task.id !== action.payload),
-                projecttasks : state.projecttasks.filter(task => task.id !== action.payload)
+                projecttasks : state.projecttasks.filter(task => task._id !== action.payload)
             }
-        case TASK_STATE:
         case MODIFY_TASK:
             return {
                 ...state,
-                tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task),
-                projecttasks: state.projecttasks.map(task => task.id === action.payload.id ? action.payload : task),
+                projecttasks: state.projecttasks.map(task => task._id === action.payload._id ? action.payload : task),
                 selectedtask: null
             }
         case ACTUAL_TASK:

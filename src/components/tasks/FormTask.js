@@ -10,7 +10,7 @@ const FormTask = () => {
 
     // Get state of tasks of project
     const tasksContext = useContext(taskContext);
-    const { errortask, selectedtask, addTask, validateTask, modifyTask } = tasksContext;
+    const { errortask, selectedtask, addTask, validateTask, updateTask } = tasksContext;
 
     // State of form input
     const [ task, saveTask ] = useState({
@@ -22,6 +22,7 @@ const FormTask = () => {
         if(selectedtask) {
             saveTask(selectedtask)
         }
+        // eslint-disable-next-line
     }, [ selectedtask ]);
 
     // Get values from task
@@ -51,12 +52,11 @@ const FormTask = () => {
         validateTask(false);
         
         // Pass validation
-        task.projectID = project.id;
-        task.state = false;
+        task.projectId = project._id;
 
         // Check if editing or adding
         if(selectedtask) { // editing
-            modifyTask(task);
+            updateTask(task);
         }  else { // new task
             addTask(task);
         }

@@ -28,7 +28,7 @@ const ListTask = () => {
                         {
                             projecttasks.map( task => (
                                 <CSSTransition
-                                    key={task.id}
+                                    key={task._id}
                                     timeout={100}
                                     className="tarea"
                                 >
@@ -46,7 +46,7 @@ const ListTask = () => {
             <button
                 type="button"
                 className="btn btn-eliminar"
-                onClick={() => deleteProject(project.id)}
+                onClick={() => deleteProject(project._id)}
             >Delete Project &times;</button>
         </>
      );
