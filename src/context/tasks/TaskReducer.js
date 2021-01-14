@@ -1,5 +1,6 @@
-import { TASK_PROJECT, ADD_TASK, VALIDATE_TASK, DELETE_TASK, TASK_STATE, ACTUAL_TASK, MODIFY_TASK } from '../../types';
+import { TASK_PROJECT, ADD_TASK, VALIDATE_TASK, DELETE_TASK, ACTUAL_TASK, MODIFY_TASK } from '../../types';
 
+// eslint-disable-next-line
 export default ( state, action ) => {
     switch(action.type) {
         case TASK_PROJECT:

@@ -1,6 +1,6 @@
 import { FORM_PROJECT, GET_PROJECTS, ADD_PROJECT, VALIDATE_FORM, ACTUAL_PROJECT, DELETE_PROJECT, PROJECT_ERROR } from '../../types';
 
-
+// eslint-disable-next-line
 export default (state, action) => {
     switch(action.type) {
         case FORM_PROJECT:
