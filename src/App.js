@@ -25,7 +25,7 @@ function App() {
           <AuthState>
             <Router>
               <Switch>
-                <Route exact path="/" component={Login} />
+                <Route path="/" component={Login} />
                 <Route exact path="/new-account" component={NewAccount} />
                 <PrivateRoute exact path="/projects" component={Projects} />
               </Switch>
