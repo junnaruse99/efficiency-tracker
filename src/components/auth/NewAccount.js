@@ -14,6 +14,21 @@ const NewAccount = (props) => {
     const authContext = useContext(AuthContext);
     const { authenticate, messagge, registerUser } = authContext;
 
+    
+    // State for login
+    const [ user, saveUser ] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirm: '',
+        completePassword: false,
+        matchPassword: true
+    });
+
+    // Extract user
+    const { name, email, password, confirm, completePassword, matchPassword } = user;
+
+
     // In case that a user has registered or there is a duplicate register
     useEffect(() => {
         if(authenticate) {
@@ -23,19 +38,37 @@ const NewAccount = (props) => {
             console.log(messagge);
             showAlert(messagge.msg, messagge.category);
         }
+
+        // Check if passwords are the same in real time
+        if(confirm === password && password.length < 6) {
+            saveUser({
+                ...user,
+                matchPassword: true,
+                completePassword: false
+            });
+        } else if(confirm === password && password.length >= 6){
+            saveUser({
+                ...user,
+                matchPassword: true,
+                completePassword: true
+            });
+        } else if(confirm !== password && password.length < 6){
+            saveUser({
+                ...user,
+                matchPassword: false,
+                completePassword: false
+            });
+        } else {
+            saveUser({
+                ...user,
+                matchPassword: false,
+                completePassword: true
+            });
+        }
+
+
         // eslint-disable-next-line
-    }, [authenticate, messagge, props.history]);
-
-    // State for login
-    const [ user, saveUser ] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirm: ''
-    });
-
-    // Extract user
-    const { name, email, password, confirm } = user;
+    }, [authenticate, messagge, props.history, confirm, password]);
 
     // To keep track of user input
     const handleChange = e => {
@@ -43,6 +76,7 @@ const NewAccount = (props) => {
             ...user,
             [e.target.name]: e.target.value
         });
+
     };
 
     // when user wants to login
@@ -61,9 +95,14 @@ const NewAccount = (props) => {
             return;
         }
 
-        // Check if both passwords are the same
-        if(password !== confirm) {
-            showAlert('Passwords are not the same', 'alerta-error');
+        // Password and confirm must be the same
+        if(!matchPassword) {
+            return;
+        }
+
+        // Password must at least contains 6 characters
+        if(!completePassword) {
+            return;
         }
 
         // Pass the value
@@ -117,6 +156,8 @@ const NewAccount = (props) => {
                             onChange={handleChange}
                         />
                     </div>
+                    {completePassword ? null : (<p className='auth-form-error'>Password must contain at least 6 characters</p>)}
+
                     <div className="campo-form">
                         <label htmlFor="confirm">Confirm Password</label>
                         <input
@@ -128,7 +169,8 @@ const NewAccount = (props) => {
                             onChange={handleChange}
                         />
                     </div>
-
+                        {matchPassword ? null : (<p className='auth-form-error'>Password must be the same</p>)}
+              
                     <div className="campo-form">
                         <input type="submit" className="btn btn-primario btn-block"
                         value="Register" /> 
