@@ -21,12 +21,13 @@ const NewAccount = (props) => {
         email: '',
         password: '',
         confirm: '',
-        completePassword: false,
+        isEmail: true,
+        completePassword: true,
         matchPassword: true
     });
 
     // Extract user
-    const { name, email, password, confirm, completePassword, matchPassword } = user;
+    const { name, email, password, confirm, isEmail, completePassword, matchPassword } = user;
 
 
     // In case that a user has registered or there is a duplicate register
@@ -40,7 +41,8 @@ const NewAccount = (props) => {
         }
 
         // Check if passwords are the same in real time
-        if(confirm === password && password.length < 6) {
+        if( password.length === 0 ) {
+        } else if(confirm === password && password.length < 6) {
             saveUser({
                 ...user,
                 matchPassword: true,
@@ -66,15 +68,41 @@ const NewAccount = (props) => {
             });
         }
 
-
         // eslint-disable-next-line
-    }, [authenticate, messagge, props.history, confirm, password]);
+    }, [authenticate, messagge, props.history, email, confirm, password]);
+
+    // Keep track of change of email
+    useEffect(() => {
+        // Check the position of the '@'
+        let position = 0;
+        for (let i = 0; i < email.length; i++) {
+            if (email.charAt(i) === '@') {
+                position = i;
+            }
+        }
+
+        // If there are character before and after '@' then is an email
+        if (email.length === 0) {
+        } else if (position === 0) {
+            saveUser({
+                ...user,
+                isEmail: false
+            })
+        } else if (position !== 0 && email.length !== position + 1) {
+            saveUser({
+                ...user,
+                isEmail: true
+            })
+        }
+        // eslint-disable-next-line
+    }, [email])
+
 
     // To keep track of user input
     const handleChange = e => {
         saveUser({
             ...user,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
 
     };
@@ -89,19 +117,15 @@ const NewAccount = (props) => {
             return;
         }
 
-        // Validation of password with a minimum of 6 chars
-        if(password.length < 6) {
-            showAlert('Password must be at least 6 characters', 'alerta-error');
+        // Password must at least contains 6 characters
+        if(!completePassword && password.length < 6) {
+            showAlert('Password must be at least 6 characters', 'alerta-error');            
             return;
         }
 
         // Password and confirm must be the same
-        if(!matchPassword) {
-            return;
-        }
-
-        // Password must at least contains 6 characters
-        if(!completePassword) {
+        if(!matchPassword) {            
+            showAlert('Password must be the same', 'alerta-error');
             return;
         }
 
@@ -145,6 +169,8 @@ const NewAccount = (props) => {
                             onChange={handleChange}
                         />
                     </div>
+                    {isEmail ? null : (<p className='auth-form-error'>Email is incorrect</p>)}
+
                     <div className="campo-form">
                         <label htmlFor="password">Password</label>
                         <input
