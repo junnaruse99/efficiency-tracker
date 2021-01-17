@@ -42,6 +42,11 @@ const Login = (props) => {
         });
     };
 
+    // Know if it is demo account
+    const handleDemo = () => {
+        logIn({ email:'demo@account.com', password:'123456' })
+    }
+
     // when user wants to login
     const handleSubmit = e => {
         e.preventDefault();
@@ -93,9 +98,16 @@ const Login = (props) => {
                     </div>
                 </form>
 
-                <Link to={'/new-account'} className="enlace-cuenta">
-                    Create an account
-                </Link>
+                <div className="container-login">
+                    <Link to={'/new-account'} className="enlace-cuenta">
+                        Create an account
+                    </Link>
+
+                    <p
+                        className="enlace-cuenta"
+                        onClick={handleDemo}
+                        >Demo account</p>
+                </div>
             </div>
         </div>
      );
