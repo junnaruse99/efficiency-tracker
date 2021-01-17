@@ -325,6 +325,12 @@ aside  {
   margin-top: 2rem;
   display: block;
   opacity: .7;
+  cursor: pointer;
+}
+
+.enlace-cuenta:hover {
+  color: #000;
+  font-weight: bold;
 }
 
 .alerta {
