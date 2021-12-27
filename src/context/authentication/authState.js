@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
-import { SUCCESSFUL_REGISTRATION, ERROR_REGISTRATION, GET_USER, SUCCESSFUL_LOGIN, ERROR_LOGIN, LOG_OUT } from '../../types';
+import { SUCCESSFUL_REGISTRATION, ERROR_REGISTRATION, GET_USER, SUCCESSFUL_LOGIN, ERROR_LOGIN, LOG_OUT, UPDATE_USER } from '../../types';
 
 import clientAxios from '../../config/axios';
 import tokenAuth from '../../config/tokenAuth'
@@ -24,7 +24,6 @@ const AuthState = props => {
     const registerUser = async data => {
         try {
             const response = await clientAxios.post('/api/users', data);
-            console.log(response.data);
 
             dispatch({
                 type: SUCCESSFUL_REGISTRATION,
@@ -105,6 +104,20 @@ const AuthState = props => {
         })
     }
 
+    // Change state of user
+    const updateUser = async (email, user) => {
+        try {
+            const response = await clientAxios.put(`/api/users/${email}`, user );
+ 
+            dispatch({
+                type: UPDATE_USER,
+                payload: response.data
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
 
     return (
         <AuthContext.Provider
@@ -116,6 +129,7 @@ const AuthState = props => {
                 loading: state.loading,
                 registerUser,
                 authenticateUser,
+                updateUser,
                 logIn,
                 logOut
             }}

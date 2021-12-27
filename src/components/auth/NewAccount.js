@@ -12,7 +12,7 @@ const NewAccount = (props) => {
 
     // Extract values for authentication
     const authContext = useContext(AuthContext);
-    const { authenticate, messagge, registerUser } = authContext;
+    const { authenticate, messagge, registerUser, updateUser } = authContext;
 
     
     // State for login
@@ -129,12 +129,20 @@ const NewAccount = (props) => {
             return;
         }
 
-        // Pass the value
-        registerUser({
-            name,
-            email, 
-            password
-        })
+        // Check if user has created a demo account before
+        let demoEmail = localStorage.getItem('demo-account');
+
+        if (demoEmail) {
+            updateUser(demoEmail, user);
+            localStorage.removeItem('demo-account');
+        } else {
+            // Pass the value
+            registerUser({
+                name,
+                email, 
+                password
+            })
+        }
     }
     
 

@@ -1,4 +1,4 @@
-import { SUCCESSFUL_REGISTRATION, ERROR_REGISTRATION, GET_USER, SUCCESSFUL_LOGIN, ERROR_LOGIN, LOG_OUT } from '../../types';
+import { SUCCESSFUL_REGISTRATION, ERROR_REGISTRATION, GET_USER, SUCCESSFUL_LOGIN, ERROR_LOGIN, LOG_OUT, UPDATE_USER } from '../../types';
 
 // eslint-disable-next-line
 export default (state, action) => {
@@ -33,6 +33,14 @@ export default (state, action) => {
                 authenticate: null,
                 messagge: action.payload,
                 loading: false
+            }
+        case UPDATE_USER:
+            localStorage.setItem('token', action.payload.token);
+            return {
+                ...state,
+                authenticate:true,
+                messagge: null,
+                loading: false,
             }
         default:
             return state;
