@@ -5,7 +5,7 @@ import ListProjects from '../projects/ListProjects';
 const Sidebar = () => {
     return ( 
         <aside>
-            <h1>MERN<span>Tasks</span></h1>
+            <h1>Efficiency<span>Tracker</span></h1>
 
             <NewProject />
 

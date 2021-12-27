@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AlertContext from '../../context/alerts/alertContext';
 import AuthContext from '../../context/authentication/authContext';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Login = (props) => {
 
@@ -12,7 +12,7 @@ const Login = (props) => {
 
     // Extract values for authentication
     const authContext = useContext(AuthContext);
-    const { authenticate, messagge, logIn } = authContext;
+    const { authenticate, messagge, logIn, registerUser } = authContext;
 
     // Keep track of changes in messagge
     useEffect(() => {
@@ -44,7 +44,21 @@ const Login = (props) => {
 
     // Know if it is demo account
     const handleDemo = () => {
-        logIn({ email:'demo@account.com', password:'123456' })
+        let demoId = localStorage.getItem('demo-account');
+        
+        if (demoId) {
+            logIn({ email:demoId, password:'password' });
+            return;
+        }
+
+        demoId = uuidv4();
+
+        registerUser({
+            name:"Demo User",
+            email:`${demoId}@email.com`, 
+            password:"password"
+        });
+        localStorage.setItem('demo-account', `${demoId}@email.com`);
     }
 
     // when user wants to login
@@ -59,6 +73,7 @@ const Login = (props) => {
         logIn({ email, password });
     }
     
+    console.log(`You are in ${process.env.NODE_EN}`);
 
     return ( 
         <div className="form-usuario">
