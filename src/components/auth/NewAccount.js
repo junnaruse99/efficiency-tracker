@@ -36,7 +36,6 @@ const NewAccount = (props) => {
             props.history.push('/projects');
         }
         if(messagge) {
-            console.log(messagge);
             showAlert(messagge.msg, messagge.category);
         }
 
