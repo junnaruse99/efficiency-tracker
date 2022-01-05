@@ -73,7 +73,7 @@ const Login = (props) => {
         logIn({ email, password });
     }
     
-    console.log(`You are in ${process.env.NODE_EN}`);
+    console.log(`You are in ${process.env.NODE_ENV}`);
 
     return ( 
         <div className="form-usuario">
